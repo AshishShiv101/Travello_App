@@ -1,0 +1,115 @@
+import Colors from '@/constants/Colors'
+import React, { Component } from 'react'
+import { Image, StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { FontAwesome } from '@expo/vector-icons'
+
+export class Login extends Component {
+
+    render() {
+        return (
+            <View style={styles.wrapper}>
+                <Image
+                    source={require('./../assets/images/login.jpg')}
+                    style={styles.image}
+                />
+
+                <View style={styles.overlay}>
+                    <Text style={styles.title}>Travello</Text>
+                    <Text style={styles.subtitle}>See the world as never before.</Text>
+                </View>
+
+                <View style={styles.container}>
+                   
+                    <TouchableOpacity style={styles.signInButton}>
+                        <Text style={styles.signInButtonText}>Get Started</Text>
+                    </TouchableOpacity>
+
+                </View>
+            </View>
+        )
+    }
+}
+
+const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        backgroundColor: Colors.background,
+    },
+    image: {
+        width: '100%',
+        height: 400,
+    },
+    overlay: {
+        position: 'absolute',
+        top: 150,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+    },
+    title: {
+        fontSize: 30,
+        fontFamily: 'lato-bold',
+        textAlign: 'center',
+        color: '#fff',
+    },
+    subtitle: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: '#fff', 
+        marginTop: 5,
+    },
+    container: {
+        backgroundColor: Colors.background,
+        flex: 1,
+        marginTop: -20,
+        paddingTop: 20,
+        height: '100%',
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
+        alignItems: 'center',
+        paddingHorizontal: 20,
+    },
+    input: {
+        width: '100%',
+        height: 50,
+        borderWidth: 1,
+        borderColor: Colors.border,
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        fontSize: 16,
+        marginBottom: 15,
+        backgroundColor: '#fff',
+    },
+    signInButton: {
+        width: '100%',
+        backgroundColor: Colors.textPrimary,
+        paddingVertical: 12,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+    signInButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    googleButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: Colors.textPrimary,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 25,
+        width: 250,
+    },
+    googleButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginLeft: 10,
+        textAlign: 'center',
+    },
+})
+
+export default Login
