@@ -2,12 +2,12 @@ import Colors from '@/constants/Colors'
 import React, { Component } from 'react'
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 
-export class Login extends Component {
-    render() {
+export default function Login() {
+        const router = useRouter();
         return (
             <View style={styles.wrapper}>
-                {/* Background Image */}
                 <Image
                     source={require('./../assets/images/login.jpg')}
                     style={styles.image}
@@ -26,7 +26,9 @@ export class Login extends Component {
                     </View>
 
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.signInButton}>
+                        <TouchableOpacity 
+                            onPress={()=> router.push('/auth/sign-in')}
+                         style={styles.signInButton}>
                             <Text style={styles.signInButtonText}>Get Started</Text>
                             {/* Right Arrow Icon */}
                             <FontAwesome name="arrow-right" size={20} color="#fff" style={styles.arrowIcon} />
@@ -36,7 +38,7 @@ export class Login extends Component {
             </View>
         )
     }
-}
+
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -114,5 +116,3 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
 })
-
-export default Login
