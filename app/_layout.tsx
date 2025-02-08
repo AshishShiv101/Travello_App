@@ -1,18 +1,43 @@
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { auth } from "../configs/FirebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import { View, ActivityIndicator } from "react-native";
+import Colors from "@/constants/Colors";
 
 export default function RootLayout() {
-   useFonts({
-      'lato-regular':require('../assets/fonts/Lato-Regular.ttf'),
-      'lato-bold': require('../assets/fonts/Lato-Bold.ttf'),
-      'lato-light': require('../assets/fonts/Lato-Light.ttf')
-    })
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useFonts({
+    "lato-regular": require("../assets/fonts/Lato-Regular.ttf"),
+    "lato-bold": require("../assets/fonts/Lato-Bold.ttf"),
+    "lato-light": require("../assets/fonts/Lato-Light.ttf"),
+  });
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+      if (!user) router.replace("/auth/sign-in"); // Redirect if not logged in
+    });
+
+    return unsubscribe; // Cleanup on unmount
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: Colors.background }}>
+        <ActivityIndicator size="large" color={Colors.textPrimary} />
+      </View>
+    );
+  }
+
   return (
-  
-  <Stack screenOptions={{
-    headerShown:false,
-  }}>
-    <Stack.Screen name ="index"/>
-  </Stack>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+    </Stack>
   );
 }
