@@ -1,14 +1,17 @@
 import { useFonts } from "expo-font";
+
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { auth } from "../configs/FirebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { View, ActivityIndicator } from "react-native";
+import {CreateTripContext} from "../context/CreateTripContext";
 import Colors from "@/constants/Colors";
 
 export default function RootLayout() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [tripData, setTripData] = useState([]); // ✅ Moved above the conditional return
   const router = useRouter();
 
   useFonts({
@@ -36,8 +39,10 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" />
-    </Stack>
+    <CreateTripContext.Provider value={{ tripData, setTripData }}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </CreateTripContext.Provider>
   );
 }
