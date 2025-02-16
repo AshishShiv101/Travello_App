@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigation } from 'expo-router';
+import { Link, useNavigation } from 'expo-router';
 import { SelectTravele } from '../../constants/Options';
 import OptionCard from '../../components/CreateTrip/OptionCard';
 import { Colors } from './../../constants/Colors';
@@ -45,11 +45,14 @@ const SelectTraveler = () => {
           )}
         />
       </View>
+      <Link href="/create-trip/select-date" asChild>
+        <TouchableOpacity style={styles.continueButton}>
+          <Text style={styles.continueText}>Continue</Text>
+        </TouchableOpacity>
+      </Link>
 
-      {/* Continue Button */}
-      <TouchableOpacity style={styles.continueButton}>
-        <Text style={styles.continueText}>Continue</Text>
-      </TouchableOpacity>
+
+      
     </View>
   );
 };
