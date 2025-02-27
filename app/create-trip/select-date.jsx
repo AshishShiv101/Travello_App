@@ -16,6 +16,8 @@ const SelectDates = () => {
       headerBackTitle: 'Back',
     });
   }, [navigation]);
+
+  //for date picker functionality
   const onDateChange = (date, type) => {
     if (type === 'START_DATE') {
       setSelectedDates({ start: date, end: null });
