@@ -17,7 +17,7 @@ const SelectDates = () => {
     });
   }, [navigation]);
 
-  //for date picker functionality
+  //for date picker functionality and selection
   const onDateChange = (date, type) => {
     if (type === 'START_DATE') {
       setSelectedDates({ start: date, end: null });
