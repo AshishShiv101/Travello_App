@@ -1,13 +1,15 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useNavigation, Link } from 'expo-router';
+import { useNavigation, Link, useRouter } from 'expo-router';
 import CalendarPicker from 'react-native-calendar-picker';
+import moment from 'moment';
 
 const SelectDates = () => {
   const navigation = useNavigation();
-  const [selectedDates, setSelectedDates] = useState(null);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [tripData, setTripData] = useState({});
+  const router = useRouter()
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -17,17 +19,35 @@ const SelectDates = () => {
     });
   }, [navigation]);
 
-  //for date picker functionality and selection
   const onDateChange = (date, type) => {
+    console.log(date, type);
     if (type === 'START_DATE') {
-      setSelectedDates({ start: date, end: null });
+      setStartDate(moment(date)); // Store date using moment
+      setEndDate(null); // Reset end date when start date changes
     } else {
-      setSelectedDates((prev) => ({ ...prev, end: date }));
+      setEndDate(moment(date));
     }
   };
-  const OnDateSelectionContinue=(date,type)=>{
-    console.log(date,type)
-  }
+
+  const OnDateSelectionContinue = () => {
+    if (!startDate || !endDate) {
+      ToastAndroid.show('Please select Start and End Date', ToastAndroid.SHORT);
+      return;
+    }
+
+    const totalNoOfDays = endDate.diff(startDate, 'days');
+    console.log('Total Days:', totalNoOfDays + 1);
+
+    setTripData({
+      ...tripData,
+      startDate: startDate.format('YYYY-MM-DD'), // Formatting for clarity
+      endDate: endDate.format('YYYY-MM-DD'),
+      totalNoOfDays: totalNoOfDays + 1, // Add 1 to include the last day
+    });
+
+    router.push('/create-trip/select-budget')
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Select Date</Text>
@@ -41,12 +61,9 @@ const SelectDates = () => {
           selectedDayTextColor="#fff"
         />
       </View>
-      <Link href="/create-trip/select-date" asChild>
-        <TouchableOpacity style={styles.continueButton}
-        onPress={OnDateSelectionContinue}>
-          <Text style={styles.continueText}>Continue</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity style={styles.continueButton} onPress={OnDateSelectionContinue}>
+        <Text style={styles.continueText}>Continue</Text>
+      </TouchableOpacity>
     </View>
   );
 };
